@@ -1,0 +1,5 @@
+[db_credentials]
+hostname = localhost
+username = sususer
+password = suspassword
+dbname = susdb
