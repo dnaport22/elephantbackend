@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Redirect to the main app view.
- */
 
 //$url = 'http://' . $_SERVER['HTTP_HOST'] . '/WebApp/www/index.html';
 // header('Access-Control-Allow-Origin: *');
