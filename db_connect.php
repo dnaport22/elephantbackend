@@ -6,7 +6,7 @@
  * This class reads the configuration from a config.ini
  *
  * @example The config.ini must look like
- * [db_credentials]
+ * [db_credentials_live]
  * hostname = localhost
  * username = sususer
  * password = suspassword
@@ -38,7 +38,7 @@ class dbConnect
 	 */
 	public function load($data){
 		if ($data['db_credentials']) {
-			$credentials = &$data['db_credentials'];
+			$credentials = &$data['db_credentials_live'];
 			$this->hostname = $credentials['hostname'];
 			$this->username = $credentials['username'];
 			$this->password = $credentials['password'];
@@ -50,7 +50,7 @@ class dbConnect
 	 * dbConnect constructor.
 	 */
 	public function __construct() {
-		$this->load(parse_ini_file("../config/config.ini", TRUE));
+		$this->load(parse_ini_file("../../config/config.ini", TRUE));
 		$this->connection = new PDO("mysql:host=$this->hostname;dbname=$this->dbname", $this->username, $this->password);
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
