@@ -38,7 +38,7 @@ class dbConnect
 	 */
 	public function load($data){
 		if ($data['db_credentials_dev']) {
-			$credentials = &$data['db_credentials'];
+			$credentials = &$data['db_credentials_dev'];
 			$this->hostname = $credentials['hostname'];
 			$this->username = $credentials['username'];
 			$this->password = $credentials['password'];
