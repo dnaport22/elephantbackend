@@ -53,10 +53,10 @@ class dbConnect
 	 * dbConnect constructor.
 	 */
 	public function __construct() {
-		print_r ($this->getDbCredentials());
-		$this->load(parse_ini_file("../../config/config.ini", TRUE));
-		$this->connection = new PDO("mysql:host=$this->hostname;dbname=$this->dbname", $this->username, $this->password);
-		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		echo $this->getDbCredentials();
+		// $this->load(parse_ini_file("../../config/config.ini", TRUE));
+		// $this->connection = new PDO("mysql:host=$this->hostname;dbname=$this->dbname", $this->username, $this->password);
+		// $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 
 	/**
