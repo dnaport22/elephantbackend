@@ -6,7 +6,7 @@
  * This class reads the configuration from a config.ini
  *
  * @example The config.ini must look like
- * [db_credentials_live]
+ * [db_credentials]
  * hostname = localhost
  * username = sususer
  * password = suspassword
@@ -29,6 +29,9 @@ class dbConnect
   private $username = NULL;
   private $password = NULL;
   private $dbname = NULL;
+  private $live_server = "myelephant.xyz";
+  private $dev_server = "develop.myelephant.xyz";
+  private $test_server = "test.myelephant.xyz";
 
 	/**
 	 * Loads the database settings.
@@ -37,8 +40,8 @@ class dbConnect
 	 *   database settings array.
 	 */
 	public function load($data){
-		if ($data['db_credentials']) {
-			$credentials = &$data['db_credentials_live'];
+		if ($data[$this->getDbCredentials($_SERVER['HTTP_HOST'])]) {
+			$credentials = &$data[$this->getDbCredentials($_SERVER['HTTP_HOST'])];
 			$this->hostname = $credentials['hostname'];
 			$this->username = $credentials['username'];
 			$this->password = $credentials['password'];
@@ -53,6 +56,26 @@ class dbConnect
 		$this->load(parse_ini_file("../../config/config.ini", TRUE));
 		$this->connection = new PDO("mysql:host=$this->hostname;dbname=$this->dbname", $this->username, $this->password);
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	}
+
+	/**
+	 * Get credentials for server type, i.e. develop, test, live
+	 * 
+	 * @param string $server
+	 * 	  Current server.
+	 * 
+	 * @return string db_credentials
+	 */
+	public function getDbCredentials($server) {
+		if ($server === $this->live_server) {
+			return 'db_credentials_live';
+		}
+		elseif ($server === $this->dev_server) {
+			return 'db_credentials_dev';
+		}
+		elseif ($server === $this->test_server) {
+			return 'db_credentials_test';
+		}
 	}
 
 	/**
