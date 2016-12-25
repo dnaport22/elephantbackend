@@ -107,4 +107,4 @@ class dbConnect
 }
 
 $mysql_db = new dbConnect();
-print_r ($mysql_db->getDbCredentials())
+print_r ($mysql_db->getDbCredentials());
