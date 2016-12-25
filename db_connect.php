@@ -64,6 +64,7 @@ class dbConnect
 	 * Get credentials for server type, i.e. develop, test, live
 	 */
 	public function getDbCredentials($server) {
+		print $server;
 		if ($server == $live_server) {
 			return 'db_credentials_live';
 		}
