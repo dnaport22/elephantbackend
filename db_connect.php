@@ -62,15 +62,16 @@ class dbConnect
 	 * Get credentials for server type, i.e. develop, test, live
 	 */
 	public function getDbCredentials() {
-		if ($_SERVER['HTTP_HOST'] == $live_server) {
-			return 'db_credentials_live';
-		}
-		elseif ($_SERVER['HTTP_HOST'] == $dev_server) {
-			return 'db_credentials_dev';
-		}
-		elseif ($_SERVER['HTTP_HOST'] == $test_server) {
-			return 'db_credentials_test';
-		}
+		return $_SERVER['HTTP_HOST'];
+		// if ($_SERVER['HTTP_HOST'] == $live_server) {
+		// 	return 'db_credentials_live';
+		// }
+		// elseif ($_SERVER['HTTP_HOST'] == $dev_server) {
+		// 	return 'db_credentials_dev';
+		// }
+		// elseif ($_SERVER['HTTP_HOST'] == $test_server) {
+		// 	return 'db_credentials_test';
+		// }
 
 	}
 
