@@ -29,6 +29,9 @@ class dbConnect
   private $username = NULL;
   private $password = NULL;
   private $dbname = NULL;
+  private $live_server = "http://myelephant.xyz";
+  private $dev_server = "http://develop.myelephant.xyz";
+  private $test_server = "http://test.myelephant.xyz";
 
 	/**
 	 * Loads the database settings.
@@ -37,8 +40,8 @@ class dbConnect
 	 *   database settings array.
 	 */
 	public function load($data){
-		if ($data['db_credentials_dev']) {
-			$credentials = &$data['db_credentials_dev'];
+		if ($data[$this->getDbCredentials()]) {
+			$credentials = &$data[$this->getDbCredentials()];
 			$this->hostname = $credentials['hostname'];
 			$this->username = $credentials['username'];
 			$this->password = $credentials['password'];
@@ -53,6 +56,22 @@ class dbConnect
 		$this->load(parse_ini_file("../../config/config.ini", TRUE));
 		$this->connection = new PDO("mysql:host=$this->hostname;dbname=$this->dbname", $this->username, $this->password);
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	}
+
+	/**
+	 * Get credentials for server type, i.e. develop, test, live
+	 */
+	public function getDbCredentials() {
+		if ($_SERVER['HTTP_HOST'] == $live_server) {
+			return 'db_credentials_live';
+		}
+		elseif ($_SERVER['HTTP_HOST'] == $dev_server) {
+			return 'db_credentials_dev';
+		}
+		elseif ($_SERVER['HTTP_HOST'] == $test_server) {
+			return 'db_credentials_test';
+		}
+
 	}
 
 	/**
@@ -88,3 +107,4 @@ class dbConnect
 }
 
 $mysql_db = new dbConnect();
+print_r ($mysql_db->getDbCredentials())
