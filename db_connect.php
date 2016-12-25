@@ -54,7 +54,6 @@ class dbConnect
 	 */
 	public function __construct() {
 		print_r ($this->getDbCredentials($_SERVER['HTTP_HOST']));
-		echo $_SERVER['HTTP_HOST'];
 		// $this->load(parse_ini_file("../../config/config.ini", TRUE));
 		// $this->connection = new PDO("mysql:host=$this->hostname;dbname=$this->dbname", $this->username, $this->password);
 		// $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -64,13 +63,13 @@ class dbConnect
 	 * Get credentials for server type, i.e. develop, test, live
 	 */
 	public function getDbCredentials($server) {
-		if ($server === $live_server) {
+		if ($server === $this->live_server) {
 			return 'db_credentials_live';
 		}
-		elseif ($server === $dev_server) {
+		elseif ($server === $this->dev_server) {
 			return 'db_credentials_dev';
 		}
-		elseif ($server === $test_server) {
+		elseif ($server === $this->test_server) {
 			return 'db_credentials_test';
 		}
 	}
