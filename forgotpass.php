@@ -58,7 +58,7 @@
    }
 
    protected function getResetPasswordUrl($key) {
-     return 'http://' . $_SERVER['HTTP_HOST'] . '/WebApp/www/#/app/resetpassword/' . $key;
+     return 'http://' . $_SERVER['HTTP_HOST'] . '/www/#/app/resetpassword/' . $key;
    }
 
    public function sendEmail($email, $key) {
