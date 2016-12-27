@@ -397,7 +397,7 @@ SQL;
    * @param string $image
    */
   public function setImage($image) {
-    $this->image = $image;
+    $this->image = $_SERVER['HTTP_HOST'] . $image;
   }
 
   /**
