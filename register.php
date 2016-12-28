@@ -7,6 +7,10 @@ class registerUser {
 
   private $my_query = NULL;
 
+  private $live_server = "myelephant.xyz";
+  private $dev_server = "develop.myelephant.xyz";
+  private $test_server = "test.myelephant.xyz";
+
   private $name = NULL;
   private $email = NULL;
   private $raw_password = NULL;
@@ -25,6 +29,26 @@ class registerUser {
     if ($user->loadByEmail($this->email)) {
       $response = new Response(0, 'The email already exists.');
       $response->send();
+    }
+  }
+
+  /**
+   * Get credentials for server type, i.e. develop, test, live
+   * 
+   * @param string $server
+   *    Current server.
+   * 
+   * @return string db_credentials
+   */
+  public function getServerUrl($server) {
+    if ($server === $this->live_server) {
+      return 'myelephant.xyz';
+    }
+    elseif ($server === $this->dev_server) {
+      return 'developweb.myelephant.xyz';
+    }
+    elseif ($server === $this->test_server) {
+      return 'testweb.myelephant.xyz';
     }
   }
 
@@ -64,7 +88,7 @@ HTML;
   }
 
   protected function getActivationUrl(User $user) {
-    return 'http://' . $_SERVER['HTTP_HOST'] . '/www/#/app/activation/' . $user->getActivation();
+    return 'http://' . $this->getServerUrl($_SERVER['HTTP_HOST']) . '/www/#/app/activation/' . $user->getActivation();
   }
 
   public function test() {

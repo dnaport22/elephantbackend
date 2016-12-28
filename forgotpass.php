@@ -73,8 +73,8 @@
       }
       elseif ($server === $this->test_server) {
         return 'testweb.myelephant.xyz';
-      }
-    }
+     }
+   }
 
    public function removeRequest() {
      $result = $this->db->query('DELETE FROM forgotpass WHERE expires < DATE_SUB(NOW(), INTERVAL 24 HOUR)');
