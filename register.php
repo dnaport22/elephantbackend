@@ -2,14 +2,11 @@
 require "db_connect.php";
 require_once 'user.php';
 require_once 'response.php';
+require_once 'settings.php';
 
 class registerUser {
 
   private $my_query = NULL;
-
-  private $live_server = "service.myelephant.xyz";
-  private $dev_server = "develop.myelephant.xyz";
-  private $test_server = "test.myelephant.xyz";
 
   private $name = NULL;
   private $email = NULL;
@@ -87,8 +84,8 @@ HTML;
     return mail($to, $subject, $message, $header) == TRUE;
   }
 
-  protected function getActivationUrl(User $user) {
-    return 'http://' . $this->getServerUrl($_SERVER['HTTP_HOST']) . '/www/#/app/activation/' . $user->getActivation();
+  protected function getActivationUrl(User $user, Settings $settings) {
+    return 'http://' . $settings->getServerUrl($_SERVER['HTTP_HOST']) . '/www/#/app/activation/' . $user->getActivation();
   }
 
   public function test() {
