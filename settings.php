@@ -26,13 +26,13 @@ class Settings
    * @return string 
    */
   public function getServerUrl($location) {
-  	if ($server === $this->live_server) {
+  	if ($location === $this->live_server) {
   		return 'myelephant.xyz';
   	}
-    elseif ($server === $this->dev_server) {
+    elseif ($location === $this->dev_server) {
       return 'developweb.myelephant.xyz';
     }
-    elseif ($server === $this->test_server) {
+    elseif ($location === $this->test_server) {
       return 'testweb.myelephant.xyz';
     }
   }
@@ -81,6 +81,6 @@ class Settings
 $server_settings = new Settings();
 
 # Settings for local development.
-$server_settings->setDevMode(false); # Change parameter to true to enable local development mode.
+$server_settings->setDevMode(true); # Change parameter to true to enable local development mode.
 // Uncomment the line below and add path to credentials file.
-//$server_settings->setCreLocation("../config/config.ini"); 
+$server_settings->setCreLocation("../config/config.ini"); 

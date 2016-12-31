@@ -84,27 +84,16 @@ HTML;
     return mail($to, $subject, $message, $header) == TRUE;
   }
 
-  protected function getActivationUrl(User $user, Settings $settings) {
+  protected function getActivationUrl(User $user) {
+    $settings = new Settings();
     return 'http://' . $settings->getServerUrl($_SERVER['HTTP_HOST']) . '/www/#/app/activation/' . $user->getActivation();
-  }
-
-  public function test() {
-    $register = ("INSERT INTO
-			user_profiles (uid,name,email,password,activation)
-			VALUES ('$this->uid','$this->name','$this->email','$this->final_password','$this->activation')");
-    $stmt = $this->my_query->prepare($register);
-    if ($stmt->execute()) {
-      echo '1';
-    }
-    else {
-      echo '0';
-    }
   }
 }
 
 try {
   $user_register = new registerUser($mysql_db, @$_POST['name'], @$_POST['email'], @$_POST['pass']);
   $user_register->submitDetails();
+
 }
 catch (Exception $exception) {
   Response::flush(0, $exception->getMessage());
