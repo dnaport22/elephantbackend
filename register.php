@@ -7,7 +7,7 @@ class registerUser {
 
   private $my_query = NULL;
 
-  private $live_server = "myelephant.xyz";
+  private $live_server = "service.myelephant.xyz";
   private $dev_server = "develop.myelephant.xyz";
   private $test_server = "test.myelephant.xyz";
 
