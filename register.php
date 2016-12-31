@@ -29,26 +29,6 @@ class registerUser {
     }
   }
 
-  /**
-   * Get credentials for server type, i.e. develop, test, live
-   * 
-   * @param string $server
-   *    Current server.
-   * 
-   * @return string db_credentials
-   */
-  public function getServerUrl($server) {
-    if ($server === $this->live_server) {
-      return 'myelephant.xyz';
-    }
-    elseif ($server === $this->dev_server) {
-      return 'developweb.myelephant.xyz';
-    }
-    elseif ($server === $this->test_server) {
-      return 'testweb.myelephant.xyz';
-    }
-  }
-
   public function submitDetails() {
     $this->verifyUser();
 
@@ -93,7 +73,6 @@ HTML;
 try {
   $user_register = new registerUser($mysql_db, @$_POST['name'], @$_POST['email'], @$_POST['pass']);
   $user_register->submitDetails();
-
 }
 catch (Exception $exception) {
   Response::flush(0, $exception->getMessage());
