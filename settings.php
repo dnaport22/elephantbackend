@@ -81,6 +81,6 @@ class Settings
 $server_settings = new Settings();
 
 # Settings for local development.
-$server_settings->setDevMode(true); # Change parameter to true to enable local development mode.
+$server_settings->setDevMode(false); # Change parameter to true to enable local development mode.
 // Uncomment the line below and add path to credentials file.
-$server_settings->setCreLocation("../config/config.ini"); 
+//$server_settings->setCreLocation("../config/config.ini"); 
