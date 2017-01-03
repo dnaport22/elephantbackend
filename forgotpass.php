@@ -1,4 +1,5 @@
  <?php
+ require_once 'settings.php';
 
  class ForgotPassword {
 
@@ -8,10 +9,6 @@
     * @var dbConnect
     */
    private $db;
-
-   private $live_server = "service.myelephant.xyz";
-   private $dev_server = "develop.myelephant.xyz";
-   private $test_server = "test.myelephant.xyz";
 
    /**
     * User constructor.
@@ -56,33 +53,14 @@
      return (bool) $result->rowCount();
    }
 
-     /**
-     * Get credentials for server type, i.e. develop, test, live
-     * 
-     * @param string $server
-     *    Current server.
-     * 
-     * @return string db_credentials
-     */
-    public function getServerUrl($server) {
-      if ($server === $this->live_server) {
-        return 'myelephant.xyz';
-      }
-      elseif ($server === $this->dev_server) {
-        return 'developweb.myelephant.xyz';
-      }
-      elseif ($server === $this->test_server) {
-        return 'testweb.myelephant.xyz';
-     }
-   }
-
    public function removeRequest() {
      $result = $this->db->query('DELETE FROM forgotpass WHERE expires < DATE_SUB(NOW(), INTERVAL 24 HOUR)');
      return (bool) $result->rowCount();
    }
 
    protected function getResetPasswordUrl($key) {
-     return 'http://' . $this->getServerUrl($_SERVER['HTTP_HOST']) . '/www/#/app/resetpassword/' . $key;
+     $settings = new Settings();
+     return 'http://' . $settings->getServerUrl($_SERVER['HTTP_HOST']) . '/www/#/app/resetpassword/' . $key;
    }
 
    public function sendEmail($email, $key) {

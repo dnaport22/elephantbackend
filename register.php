@@ -2,14 +2,11 @@
 require "db_connect.php";
 require_once 'user.php';
 require_once 'response.php';
+require_once 'settings.php';
 
 class registerUser {
 
   private $my_query = NULL;
-
-  private $live_server = "service.myelephant.xyz";
-  private $dev_server = "develop.myelephant.xyz";
-  private $test_server = "test.myelephant.xyz";
 
   private $name = NULL;
   private $email = NULL;
@@ -29,26 +26,6 @@ class registerUser {
     if ($user->loadByEmail($this->email)) {
       $response = new Response(0, 'The email already exists.');
       $response->send();
-    }
-  }
-
-  /**
-   * Get credentials for server type, i.e. develop, test, live
-   * 
-   * @param string $server
-   *    Current server.
-   * 
-   * @return string db_credentials
-   */
-  public function getServerUrl($server) {
-    if ($server === $this->live_server) {
-      return 'myelephant.xyz';
-    }
-    elseif ($server === $this->dev_server) {
-      return 'developweb.myelephant.xyz';
-    }
-    elseif ($server === $this->test_server) {
-      return 'testweb.myelephant.xyz';
     }
   }
 
@@ -88,20 +65,8 @@ HTML;
   }
 
   protected function getActivationUrl(User $user) {
-    return 'http://' . $this->getServerUrl($_SERVER['HTTP_HOST']) . '/www/#/app/activation/' . $user->getActivation();
-  }
-
-  public function test() {
-    $register = ("INSERT INTO
-			user_profiles (uid,name,email,password,activation)
-			VALUES ('$this->uid','$this->name','$this->email','$this->final_password','$this->activation')");
-    $stmt = $this->my_query->prepare($register);
-    if ($stmt->execute()) {
-      echo '1';
-    }
-    else {
-      echo '0';
-    }
+    $settings = new Settings();
+    return 'http://' . $settings->getServerUrl($_SERVER['HTTP_HOST']) . '/www/#/app/activation/' . $user->getActivation();
   }
 }
 

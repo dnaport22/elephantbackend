@@ -1,5 +1,5 @@
 <?php
-
+require_once 'settings.php';
 /**
  * Class dbConnect implements a wrapper around database connections.
  *
@@ -20,6 +20,7 @@ class dbConnect
 	 * @var PDO
 	 */
 	private $connection;
+	private $server_cre;
 
 	/**
 	 * Database connection parameters.
@@ -29,10 +30,6 @@ class dbConnect
   private $username = NULL;
   private $password = NULL;
   private $dbname = NULL;
-  private $live_server = "service.myelephant.xyz";
-  private $dev_server = "develop.myelephant.xyz";
-  private $test_server = "test.myelephant.xyz";
-
 	/**
 	 * Loads the database settings.
 	 *
@@ -40,8 +37,8 @@ class dbConnect
 	 *   database settings array.
 	 */
 	public function load($data){
-		if ($data[$this->getDbCredentials($_SERVER['HTTP_HOST'])]) {
-			$credentials = &$data[$this->getDbCredentials($_SERVER['HTTP_HOST'])];
+		if ($data[$this->server_cre->getDbCredentials($_SERVER['HTTP_HOST'])]) {
+			$credentials = &$data[$this->server_cre->getDbCredentials($_SERVER['HTTP_HOST'])];
 			$this->hostname = $credentials['hostname'];
 			$this->username = $credentials['username'];
 			$this->password = $credentials['password'];
@@ -52,30 +49,11 @@ class dbConnect
 	/**
 	 * dbConnect constructor.
 	 */
-	public function __construct() {
-		$this->load(parse_ini_file("../../config/config.ini", TRUE));
+	public function __construct(Settings $server_cre) {
+		$this->server_cre = $server_cre;
+		$this->load(parse_ini_file($this->server_cre->cre_location, TRUE));
 		$this->connection = new PDO("mysql:host=$this->hostname;dbname=$this->dbname", $this->username, $this->password);
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	}
-
-	/**
-	 * Get credentials for server type, i.e. develop, test, live
-	 * 
-	 * @param string $server
-	 * 	  Current server.
-	 * 
-	 * @return string db_credentials
-	 */
-	public function getDbCredentials($server) {
-		if ($server === $this->live_server) {
-			return 'db_credentials_live';
-		}
-		elseif ($server === $this->dev_server) {
-			return 'db_credentials_dev';
-		}
-		elseif ($server === $this->test_server) {
-			return 'db_credentials_test';
-		}
 	}
 
 	/**
@@ -110,4 +88,4 @@ class dbConnect
 	}
 }
 
-$mysql_db = new dbConnect();
+$mysql_db = new dbConnect($server_settings);
