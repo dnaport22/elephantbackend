@@ -233,7 +233,7 @@ SQL;
    * @return string
    */
   public function getRegisterDate() {
-    return $this->postDate;
+    return $this->registerDate;
   }
 
   /**
