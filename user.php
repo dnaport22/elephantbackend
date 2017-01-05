@@ -52,7 +52,7 @@ class User implements JsonSerializable {
       $this->setStatus($data['status']);
       $this->setPassword($data['password']);
       $this->setRole($data['role']);
-      $this->setRegisterDate($data['date']);
+      $this->setRegisterDate($data['registerDate']);
       return TRUE;
     }
     return FALSE;
