@@ -27,6 +27,7 @@ class User implements JsonSerializable {
   private $activation;
   private $status;
   private $role;
+  private $registerDate;
 
   /**
    * User constructor.
@@ -51,6 +52,7 @@ class User implements JsonSerializable {
       $this->setStatus($data['status']);
       $this->setPassword($data['password']);
       $this->setRole($data['role']);
+      $this->setRegisterDate($data['date']);
       return TRUE;
     }
     return FALSE;
@@ -58,15 +60,16 @@ class User implements JsonSerializable {
 
   public function save($password = '') {
     $query = <<<SQL
-      INSERT INTO user_profiles (uid, name, email, password, activation, status, role)
-				VALUES (:uid, :name, :email, :password, :activation, :status, :role)
+      INSERT INTO user_profiles (uid, name, email, password, activation, status, role, registerDate)
+				VALUES (:uid, :name, :email, :password, :activation, :status, :role, :registerDate)
 			ON DUPLICATE KEY UPDATE
 			  name = VALUES(name),
 			  email = VALUES(email),
 			  password = VALUES(password),
 			  activation = VALUES(activation),
 			  status = VALUES(status),
-        role = VALUES(role)
+        role = VALUES(role),
+        registerDate = VALUES(registerDate),
 SQL;
 
     $result = $this->db->query($query, [
@@ -76,7 +79,8 @@ SQL;
       ':password' => ($password) ? Password::getInstance()->getHash($password) : $this->getPassword(),
       ':activation' => $this->getActivation(),
       ':status' => $this->getStatus(),
-      ':role' => $this->getRole()
+      ':role' => $this->getRole(),
+      ':registerDate' => $this->getRegisterDate() ?: date('Y-m-d'),
     ]);
     return (bool) $result->rowCount();
   }
@@ -223,6 +227,20 @@ SQL;
    */
   public function getRole() {
     return $this->role;
+  }
+
+  /**
+   * @return string
+   */
+  public function getRegisterDate() {
+    return $this->postDate;
+  }
+
+  /**
+   * @param string $postDate
+   */
+  public function setRegisterDate($registerDate) {
+    $this->registerDate = $registerDate;
   }
 
 }
