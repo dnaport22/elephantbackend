@@ -69,7 +69,7 @@ class User implements JsonSerializable {
 			  activation = VALUES(activation),
 			  status = VALUES(status),
         role = VALUES(role),
-        registerDate = VALUES(registerDate),
+        registerDate = VALUES(registerDate)
 SQL;
 
     $result = $this->db->query($query, [
