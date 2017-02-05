@@ -244,7 +244,11 @@ SQL;
   public static function getUserList(User $user, $offset, $limit) {
     global $mysql_db;
     /** @var PDOStatement $results */
-    $results = $mysql_db->queryCast('SELECT * FROM items WHERE user_id = :uid AND status = :status_a OR status = :status_b ORDER BY itemID DESC LIMIT :limit OFFSET :offset', [
+    $results = $mysql_db->queryCast('SELECT * FROM items WHERE user_id = :uid AND 
+      status = :status_a OR 
+      user_id = :uid AND 
+      status = :status_b ORDER BY 
+      itemID DESC LIMIT :limit OFFSET :offset', [
       ':uid' => $user->getUid(),
       ':offset' => (int) $offset ?: 0,
       ':limit' => (int) $limit ?: 10,
