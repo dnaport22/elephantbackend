@@ -248,8 +248,8 @@ SQL;
       ':uid' => $user->getUid(),
       ':offset' => (int) $offset ?: 0,
       ':limit' => (int) $limit ?: 10,
-      ':status_a' => '1',
-      ':status_b' => '-1',
+      ':status_a' => '0',
+      ':status_b' => '1',
     ]);
     return self::loadList($results);
   }
