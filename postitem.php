@@ -50,8 +50,8 @@ class postItem
 
 		$this->createFolderIfNecessary();
 
-		$target_file = $this->savefolder . time() . '_' . basename($imagesrc);
-		$access_path = time() . '_' . basename($imagesrc);
+		$target_file = $this->savefolder . time() . '.jpg';
+		$access_path = time() . '.jpg';
 		if (move_uploaded_file($postimage, $target_file) == True) {
 			return $access_path;
 		}
