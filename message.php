@@ -42,7 +42,7 @@ class requestItem
   public function sendMsg($message, $toEmail)
   {
     $to = $toEmail;
-    $subject= "The elephant app item request";
+    $subject= "The elephant app item request - " . $this->itemName;
     $body = "<html>".
          "<body>".
          "$message <br><br><br>";
